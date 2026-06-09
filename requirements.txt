@@ -1,0 +1,4 @@
+mapillary_tools>=0.10
+pygeohash
+astral
+requests
