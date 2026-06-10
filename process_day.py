@@ -9,7 +9,10 @@ from config import REAR_SKIP_DAYS
 from clips import clip_window, list_clips
 
 def gate_clip(path, pts, con, cam, now_ts):
-    t0, dur = clip_window(path)
+    win = clip_window(path)
+    if win is None:
+        return ("skip", "bad_clip", 0)
+    t0, dur = win
     mid_t = t0 + dur / 2.0
     mid = geo.interpolate(pts, mid_t)
 
@@ -179,7 +182,10 @@ if __name__ == "__main__":
     main()
 
 def gate_clip(path, pts, con, cam, now_ts):
-    t0, dur = clip_window(path)
+    win = clip_window(path)
+    if win is None:
+        return ("skip", "bad_clip", 0)
+    t0, dur = win
     mid_t = t0 + dur / 2.0
     mid = geo.interpolate(pts, mid_t)
     if mid is None:
