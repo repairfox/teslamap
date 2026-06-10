@@ -35,3 +35,19 @@ DEDUP_BURST = 2            # free uploads on a never-maxed cell-direction
 DEDUP_COOLDOWN_DAYS = 60   # then 1 per this many days
 REAR_SKIP_DAYS = 60        # skip rear cam if opposing front coverage within N days
 MASTER_GPX = "/srv/teslacam/gps/merged-all.gpx"
+
+SAMPLE_INTERVAL = {
+    "front":          1.0,
+    "left_pillar":    0.15,
+    "right_pillar":   0.15,
+    "left_repeater":  0.2,
+    "right_repeater": 0.2,
+}
+
+METERS_PER_FRAME = {
+    "front":          10.0,
+    "left_pillar":     3.0,
+    "right_pillar":    3.0,
+    "left_repeater":   5.0,
+    "right_repeater":  5.0,
+}

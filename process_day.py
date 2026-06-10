@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 import geo, filters, db
 from config import RECENTCLIPS, WORK_DIR, MASTER_GPX
-from config import CAMERAS, DB_PATH, BEARING_TOL_DEG
+from config import CAMERAS, DB_PATH, BEARING_TOL_DEG, SAMPLE_INTERVAL
 from config import DEDUP_BURST, DEDUP_COOLDOWN_DAYS
 from config import REAR_SKIP_DAYS
 from clips import clip_window, list_clips
@@ -79,9 +79,10 @@ def process_camera(day, cam, pts, con, now_ts, args):
     if args.no_upload:
         env["NOUPLOAD"] = "1"
 
+    interval = SAMPLE_INTERVAL.get(cam, 1.0)
     subprocess.run([
         "bash", os.path.expanduser("~/teslamap/runcam.sh"),
-        day, cam, str(angle), str(args.offset)
+        day, cam, str(angle), str(args.offset), str(interval)
     ], check=True, env=env)
 
     if args.delete_source:
@@ -176,3 +177,26 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+def gate_clip(path, pts, con, cam, now_ts):
+    t0, dur = clip_window(path)
+    mid_t = t0 + dur / 2.0
+    mid = geo.interpolate(pts, mid_t)
+    if mid is None:
+        return ("skip", "no_gps", t0)
+    lat, lon, _ = mid
+    if not filters.is_daylight(lat, lon, mid_t):
+        return ("skip", "night", t0)
+    if not filters.is_dry(lat, lon, mid_t):
+        return ("skip", "rain", t0)
+    cells = geo.cells_for_span(pts, t0, t0 + dur)
+    if not cells:
+        return ("skip", "no_gps", t0)
+    if all(db.is_maxed(con, gh, brg, now_ts, BEARING_TOL_DEG,
+                       DEDUP_BURST, DEDUP_COOLDOWN_DAYS) for gh, brg in cells):
+        return ("skip", "covered", t0)
+    if cam == "back" and all(
+        db.opposing_recent(con, gh, brg, now_ts, BEARING_TOL_DEG, REAR_SKIP_DAYS)
+        for gh, brg in cells):
+        return ("skip", "rear_redundant", t0)
+    return ("process", "ok", t0)
