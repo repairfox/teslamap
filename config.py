@@ -7,10 +7,10 @@ DB_PATH     = "/srv/teslacam/coverage.db"
 # ---- cameras: name -> heading offset (deg) added to travel bearing ----
 CAMERAS = {
     "front":          0,
-    "left_pillar":   -45,
-    "right_pillar":   45,
-    "left_repeater": -120,
-    "right_repeater": 120,
+    "left_pillar":   -60,
+    "right_pillar":   60,
+    "left_repeater": -150,
+    "right_repeater": 150,
 }
 
 # ---- timing ----
@@ -37,17 +37,25 @@ REAR_SKIP_DAYS = 60        # skip rear cam if opposing front coverage within N d
 MASTER_GPX = "/srv/teslacam/gps/merged-all.gpx"
 
 SAMPLE_INTERVAL = {
-    "front":          1.0,
-    "left_pillar":    0.15,
-    "right_pillar":   0.15,
-    "left_repeater":  0.2,
-    "right_repeater": 0.2,
+    "front":          0.3,
+    "left_pillar":    0.3,
+    "right_pillar":   0.3,
+    "left_repeater":  0.3,
+    "right_repeater": 0.3,
 }
 
 METERS_PER_FRAME = {
-    "front":          10.0,
-    "left_pillar":     3.0,
-    "right_pillar":    3.0,
-    "left_repeater":   5.0,
-    "right_repeater":  5.0,
+    "front":          7.0,
+    "left_pillar":    6.0,
+    "right_pillar":   6.0,
+    "left_repeater":  6.0,
+    "right_repeater": 6.0,
+}
+
+OFFSET_ADJUST = {
+    "front":          0.0,
+    "left_pillar":   -1.75,
+    "right_pillar":  -1.75,
+    "left_repeater": -1.75,
+    "right_repeater": -1.75,
 }

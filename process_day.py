@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 import geo, filters, db
 from config import RECENTCLIPS, WORK_DIR, MASTER_GPX
-from config import CAMERAS, DB_PATH, BEARING_TOL_DEG, SAMPLE_INTERVAL
+from config import CAMERAS, DB_PATH, BEARING_TOL_DEG, SAMPLE_INTERVAL, OFFSET_ADJUST
 from config import DEDUP_BURST, DEDUP_COOLDOWN_DAYS
 from config import REAR_SKIP_DAYS
 from clips import clip_window, list_clips
@@ -83,9 +83,10 @@ def process_camera(day, cam, pts, con, now_ts, args):
         env["NOUPLOAD"] = "1"
 
     interval = SAMPLE_INTERVAL.get(cam, 1.0)
+    cam_offset = args.offset + OFFSET_ADJUST.get(cam, 0.0)
     subprocess.run([
         "bash", os.path.expanduser("~/teslamap/runcam.sh"),
-        day, cam, str(angle), str(args.offset), str(interval)
+        day, cam, str(angle), str(cam_offset), str(interval)
     ], check=True, env=env)
 
     if args.delete_source:
