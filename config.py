@@ -46,16 +46,16 @@ SAMPLE_INTERVAL = {
 
 METERS_PER_FRAME = {
     "front":          7.0,
-    "left_pillar":    6.0,
-    "right_pillar":   6.0,
+    "left_pillar":    4.5,
+    "right_pillar":   4.5,
     "left_repeater":  6.0,
     "right_repeater": 6.0,
 }
 
 OFFSET_ADJUST = {
     "front":          0.0,
-    "left_pillar":   -1.75,
-    "right_pillar":  -1.75,
-    "left_repeater": -1.75,
-    "right_repeater": -1.75,
+    "left_pillar":   -1.5,
+    "right_pillar":  -1.5,
+    "left_repeater": -1.5,
+    "right_repeater": -1.5,
 }
