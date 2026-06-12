@@ -54,8 +54,8 @@ METERS_PER_FRAME = {
 
 OFFSET_ADJUST = {
     "front":          0.0,
-    "left_pillar":   -1.5,
-    "right_pillar":  -1.5,
-    "left_repeater": -1.5,
-    "right_repeater": -1.5,
+    "left_pillar":   -1,
+    "right_pillar":  -1,
+    "left_repeater": -1,
+    "right_repeater": -1,
 }
