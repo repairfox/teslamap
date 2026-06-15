@@ -168,7 +168,7 @@ def main():
     if should_record:
         record_front_coverage(args.day, con)
 
-    if args.delete_source and not args.gate_only:
+    if args.delete_source and not args.gate_only and args.day:
         for cam in cams:
             shutil.rmtree(
                 f"{WORK_DIR}/{args.day}/{cam}/frames",
